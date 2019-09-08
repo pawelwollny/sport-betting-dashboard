@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 
@@ -8,7 +9,8 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
   declarations: [],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    HttpClientTestingModule
   ]
 })
 export class DashboardModule { }
