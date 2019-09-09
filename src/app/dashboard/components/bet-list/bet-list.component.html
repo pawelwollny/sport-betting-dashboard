@@ -1,4 +1,4 @@
-<table mat-table class="mat-elevation-z8" [dataSource]="bets$ | async">
+<table mat-table class="mat-elevation-z8" [dataSource]="bets$ | async" [trackBy]="trackById">
 
   <ng-container matColumnDef="firstTeam">
     <th mat-header-cell *matHeaderCellDef>First Team</th>

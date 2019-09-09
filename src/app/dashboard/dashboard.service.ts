@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { Observable, of } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { Bet } from './models/bet';
 import { OkResponse } from './models/ok-response';
-
 
 @Injectable({
   providedIn: 'root'
@@ -27,12 +27,12 @@ export class DashboardService {
     return this.httpClient.get<any>(`${this.apiUrl}/bet/${id}`);
   }
 
-  generateBets(): Observable<Bet[]> {
-    return of(null);
+  generateBets(size: number): Observable<Bet[]> {
+    return this.httpClient.get<any>(`${this.apiUrl}/bets-generate?size=${size}`);
   }
 
-  startPulling(rate: string): Observable<OkResponse> {
-    return this.httpClient.get<any>(`${this.apiUrl}/pulling/start`, {params: {rate}});
+  startPulling(rate: number): Observable<OkResponse> {
+    return this.httpClient.get<any>(`${this.apiUrl}/pulling/start`, {params: { rate: `${rate}`}});
   }
 
   stopPulling(): Observable<OkResponse> {
@@ -41,5 +41,16 @@ export class DashboardService {
 
   getUpdatedOdds(): Observable<Bet[]> {
     return this.socket.fromEvent<any>('bet-updated');
+  }
+
+  getAllBets(): Observable<Bet[]> {
+    const bets$ = this.getBets();
+    const updatedBets$ = this.getUpdatedOdds();
+
+    return combineLatest(bets$, updatedBets$).pipe(map(([bets, updatedBets]) =>
+      bets.map(
+        bet => updatedBets.find(updatedBet => updatedBet.id === bet.id) || bet
+      )
+    ));
   }
 }
