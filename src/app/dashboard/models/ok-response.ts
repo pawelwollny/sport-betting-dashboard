@@ -1,3 +1,3 @@
 export interface OkResponse {
-  ok: number;
+  readonly ok: number;
 }

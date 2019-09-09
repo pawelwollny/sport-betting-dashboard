@@ -8,8 +8,6 @@ import { betsMock } from '../shared/mocks/bets-mock';
 import { SocketMock } from '../shared/mocks/socket-mock';
 import { DashboardService } from './dashboard.service';
 
-
-
 describe('DashboardService', () => {
   let service: DashboardService;
   let httpTestingController: HttpTestingController;
