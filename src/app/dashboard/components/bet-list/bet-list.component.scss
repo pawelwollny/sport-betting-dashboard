@@ -1,3 +1,11 @@
+@mixin align-text-center {
+  text-align: center;
+}
+
 table {
   width: 100%;
+
+  th, td {
+    @include align-text-center;
+  }
 }

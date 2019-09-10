@@ -61,7 +61,7 @@ describe('DashboardService', () => {
   }));
 
   it('expect websocket pulling to start', async(() => {
-      service.startPulling('2').subscribe(
+      service.startPulling(2).subscribe(
         response => expect(response).toEqual({ok: 1})
       );
 

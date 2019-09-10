@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -24,8 +24,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.dashboardService.stopPulling().pipe(takeUntil(this.destroy$)).subscribe();
     this.destroy$.next(true);
     this.destroy$.complete();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunloadHandler($event) {
+    this.dashboardService.stopPulling().pipe(takeUntil(this.destroy$)).subscribe();
   }
 }
